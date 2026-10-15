@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clase 29: Suma de Vectores - Práctica</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0f172a;
+      --accent: #d97706;
+      --success: #16a34a;
+      --error: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--secondary);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    section {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: var(--secondary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .formula-box {
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      border-left: 4px solid var(--accent);
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+      font-size: 1.05rem;
+    }
+
+    .problem-card {
+      background: #f1f5f9;
+      border-left: 5px solid var(--primary);
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 25px;
+    }
+
+    .problem-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .vector-var {
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .interactive-area {
+      background: white;
+      padding: 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin: 15px 0;
+    }
+
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .input-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-field input {
+      width: 100px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .btn-check {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-check:hover {
+      background: var(--primary-dark);
+    }
+
+    .feedback {
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
+    .feedback.success { color: var(--success); }
+    .feedback.error { color: var(--error); }
+
+    /* Estilos del desplegable bloqueado */
+    .locked-solution {
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .btn-solution {
+      background: #94a3b8;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: not-allowed;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-solution.unlocked {
+      background: var(--success);
+      cursor: pointer;
+    }
+
+    .solution-content {
+      display: none;
+      margin-top: 15px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #e2e8f0;
+      color: var(--secondary);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Clase 29: Suma de Vectores</h1>
+    <p>Guía de ejercicios interactivos para libreta</p>
+  </header>
+
+  <section>
+    <h2>Fórmulas de Apoyo</h2>
+    <div class="formula-box">
+      <p><strong>Componentes:</strong> V<sub>x</sub> = V · cos(θ) &nbsp;|&nbsp; V<sub>y</sub> = V · sen(θ)</p>
+      <p><strong>Resultante:</strong> R = √(R<sub>x</sub><sup>2</sup> + R<sub>y</sub><sup>2</sup>)</p>
+      <p><strong>Dirección:</strong> θ = arctan(|R<sub>y</sub> / R<sub>x</sub>|)</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Problemas Prácticos</h2>
+    <p style="margin-bottom: 15px;"><em>Resuelve los ejercicios en tu libreta e ingresa tus resultados para desbloquear la solución paso a paso.</em></p>
+
+    <!-- PROBLEMA 1 -->
+    <div class="problem-card">
+      <div class="problem-title">Problema 1: Vectores en el Primer Cuadrante</div>
+      <p>Un barco navega aplicando dos fuerzas para maniobrar en el puerto:</p>
+      <ul style="margin: 10px 0 15px 20px;">
+        <li>Fuerza <span class="vector-var">A</span> = 12 u con un ángulo de 30°</li>
+        <li>Fuerza <span class="vector-var">B</span> = 8 u con un ángulo de 60°</li>
+      </ul>
+
+      <div class="interactive-area">
+        <p><strong>Ingresa tus respuestas:</strong></p>
+        <div class="input-group">
+          <div class="input-field">
+            <label>Magnitud (R):</label>
+            <input type="number" id="p1-r" placeholder="0.00" step="0.01"> u
+          </div>
+          <div class="input-field">
+            <label>Ángulo (θ):</label>
+            <input type="number" id="p1-a" placeholder="0.00" step="0.01"> °
+          </div>
+          <button class="btn-check" onclick="validarProblema(1, 19.35, 41.94)">Comprobar</button>
+        </div>
+        <div id="p1-feedback" class="feedback"></div>
+      </div>
+
+      <div class="locked-solution">
+        <button id="p1-btn" class="btn-solution" disabled onclick="toggleSolucion('p1-sol')">
+          🔒 Desbloquear Solución Paso a Paso
+        </button>
+        <div id="p1-sol" class="solution-content">
+          <p><strong>Paso 1: Descomposición de componentes</strong></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Vector</th>
+                <th>Componente X</th>
+                <th>Componente Y</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="vector-var">A</span> (12 u, 30°)</td>
+                <td>12 · cos(30°) = 10.39 u</td>
+                <td>12 · sen(30°) = 6.00 u</td>
+              </tr>
+              <tr>
+                <td><span class="vector-var">B</span> (8 u, 60°)</td>
+                <td>8 · cos(60°) = 4.00 u</td>
+                <td>8 · sen(60°) = 6.93 u</td>
+              </tr>
+              <tr>
+                <td><strong>Suma (R)</strong></td>
+                <td><strong>R<sub>x</sub> = 14.39 u</strong></td>
+                <td><strong>R<sub>y</sub> = 12.93 u</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><strong>Paso 2: Magnitud de la resultante (R)</strong></p>
+          <p>R = √((14.39)<sup>2</sup> + (12.93)<sup>2</sup>)</p>
+          <p>R = √(207.07 + 167.18) = √(374.25) ≈ <strong>19.35 u</strong></p>
+
+          <p style="margin-top: 10px;"><strong>Paso 3: Dirección (θ)</strong></p>
+          <p>θ = arctan(12.93 / 14.39) = arctan(0.8985) ≈ <strong>41.94°</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEMA 2 -->
+    <div class="problem-card">
+      <div class="problem-title">Problema 2: Vectores con Componentes Negativas</div>
+      <p>Dos personas tiran de un objeto con las siguientes fuerzas:</p>
+      <ul style="margin: 10px 0 15px 20px;">
+        <li>Fuerza <span class="vector-var">F<sub>1</sub></span> = 15 u a 0°</li>
+        <li>Fuerza <span class="vector-var">F<sub>2</sub></span> = 10 u a 120°</li>
+      </ul>
+
+      <div class="interactive-area">
+        <p><strong>Ingresa tus respuestas:</strong></p>
+        <div class="input-group">
+          <div class="input-field">
+            <label>Magnitud (R):</label>
+            <input type="number" id="p2-r" placeholder="0.00" step="0.01"> u
+          </div>
+          <div class="input-field">
+            <label>Ángulo (θ):</label>
+            <input type="number" id="p2-a" placeholder="0.00" step="0.01"> °
+          </div>
+          <button class="btn-check" onclick="validarProblema(2, 13.23, 40.89)">Comprobar</button>
+        </div>
+        <div id="p2-feedback" class="feedback"></div>
+      </div>
+
+      <div class="locked-solution">
+        <button id="p2-btn" class="btn-solution" disabled onclick="toggleSolucion('p2-sol')">
+          🔒 Desbloquear Solución Paso a Paso
+        </button>
+        <div id="p2-sol" class="solution-content">
+          <p><strong>Paso 1: Descomposición de componentes</strong></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Vector</th>
+                <th>Componente X</th>
+                <th>Componente Y</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="vector-var">F<sub>1</sub></span> (15 u, 0°)</td>
+                <td>15 · cos(0°) = 15.00 u</td>
+                <td>15 · sen(0°) = 0.00 u</td>
+              </tr>
+              <tr>
+                <td><span class="vector-var">F<sub>2</sub></span> (10 u, 120°)</td>
+                <td>10 · cos(120°) = -5.00 u</td>
+                <td>10 · sen(120°) = 8.66 u</td>
+              </tr>
+              <tr>
+                <td><strong>Suma (R)</strong></td>
+                <td><strong>R<sub>x</sub> = 10.00 u</strong></td>
+                <td><strong>R<sub>y</sub> = 8.66 u</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><strong>Paso 2: Magnitud de la resultante (R)</strong></p>
+          <p>R = √((10.00)<sup>2</sup> + (8.66)<sup>2</sup>)</p>
+          <p>R = √(100 + 75) = √(175) ≈ <strong>13.23 u</strong></p>
+
+          <p style="margin-top: 10px;"><strong>Paso 3: Dirección (θ)</strong></p>
+          <p>θ = arctan(8.66 / 10.00) = arctan(0.866) ≈ <strong>40.89°</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Material de Física - Clase 32</p>
+  </footer>
+
+  <script>
+    function validarProblema(num, R_correcta, A_correcto) {
+      const inputR = parseFloat(document.getElementById(`p${num}-r`).value);
+      const inputA = parseFloat(document.getElementById(`p${num}-a`).value);
+      const feedback = document.getElementById(`p${num}-feedback`);
+      const btn = document.getElementById(`p${num}-btn`);
+
+      if (isNaN(inputR) || isNaN(inputA)) {
+        feedback.className = "feedback error";
+        feedback.textContent = "Por favor ingresa ambos valores antes de comprobar.";
+        return;
+      }
+
+      // Permite un margen de error de +/- 0.3 por redondeos
+      const errorR = Math.abs(inputR - R_correcta);
+      const errorA = Math.abs(inputA - A_correcto);
+
+      if (errorR <= 0.3 && errorA <= 0.3) {
+        feedback.className = "feedback success";
+        feedback.textContent = "¡Correcto! Has desbloqueado el paso a paso del ejercicio.";
+        
+        btn.disabled = false;
+        btn.classList.add("unlocked");
+        btn.innerHTML = "🔓 Ver Solución Paso a Paso";
+      } else {
+        feedback.className = "feedback error";
+        feedback.textContent = "Respuesta incorrecta. Revisa tus cálculos en la libreta e inténtalo de nuevo.";
+      }
+    }
+
+    function toggleSolucion(id) {
+      const solContent = document.getElementById(id);
+      if (solContent.style.display === "block") {
+        solContent.style.display = "none";
+      } else {
+        solContent.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
